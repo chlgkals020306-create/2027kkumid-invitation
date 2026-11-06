@@ -30,7 +30,7 @@
   --safe-t: env(safe-area-inset-top, 0px);
   --safe-b: env(safe-area-inset-bottom, 0px);
   /* legible floors for type that would fall under ~11px at 1/2.69 scale */
-  --fs-body: max(10px, calc(36 * var(--u)));
+  --fs-body: max(10px, calc(40 * var(--u)));
   --fs-small: max(11px, calc(16 * var(--u)));
 }
 
@@ -164,9 +164,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .page2__scroll > * { width: var(--col); margin-left: auto; margin-right: auto; }
 
-/* Figma 200:37 (page 2, 1049 wide). Section tops: 초대장 224 · 날짜 1535 · 위치 2641 · 주차 3798 ·
-   후원사 5056 · footer 5620 — each section has the Figma height as min-height and the
-   gap to the next section as margin-bottom (280; 200 after 날짜; 213 before the footer). */
+/* Figma 200:37 (page 2, 1049 wide). Section tops: 초대장 224 · 날짜 1535 · 위치 2721 · 주차 3878 ·
+   후원사 5136 · footer 5620 — each section has the Figma height as min-height and the
+   gap to the next section as margin-bottom (280; 133 before the footer). */
 .p2-top { padding-top: calc(var(--safe-t) + 69 * var(--u)); height: calc(224 * var(--u) + var(--safe-t)); }
 .p2-top__logo { width: calc(96 * var(--u)); height: auto; margin: 0 auto; }
 
@@ -177,23 +177,23 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   font-size: calc(64 * var(--u)); line-height: calc(58.26 * var(--u)); letter-spacing: calc(-3 * var(--u));
 }
 
-/* info rows: "LABEL  |  value" — Pretendard 36, label Bold, value Regular; each row centred as a group */
-.info { margin: 0; color: var(--ink); font-size: var(--fs-body); line-height: calc(43.4 * var(--u)); }
-.info__row { display: flex; justify-content: center; gap: calc(18 * var(--u)); padding: 0 calc(30 * var(--u)); }
+/* info rows: "LABEL  |  value" — Pretendard 40 / -1, label Bold, value Regular; each row centred as a group */
+.info { margin: 0; color: var(--ink); font-size: var(--fs-body); line-height: calc(43.4 * var(--u)); letter-spacing: calc(-1 * var(--u)); }
+.info__row { display: flex; justify-content: center; gap: calc(21 * var(--u)); padding: 0 calc(30 * var(--u)); }
 .info__row + .info__row { margin-top: calc(22.5 * var(--u)); }
 .info dt { font-weight: 700; white-space: pre; flex: none; }
 .info dd { margin: 0; text-align: left; white-space: nowrap; }
-.info__ml { line-height: calc(45 * var(--u)); }        /* two-line values (SUBWAY, PARKING) */
-.info__l2 { display: block; margin-top: calc(9.63 * var(--u)); }
-.info__dim { display: block; opacity: .4; font-size: max(10px, calc(32 * var(--u))); line-height: calc(34.2 * var(--u)); margin-top: calc(18 * var(--u)); }
+.info__ml { line-height: calc(55 * var(--u)); }        /* two-line values (SUBWAY, PARKING) */
+.info__l2 { display: block; margin-top: calc(13.89 * var(--u)); }
+.info__dim { display: block; opacity: .4; line-height: calc(34.2 * var(--u)); margin-top: calc(28 * var(--u)); }
 
-/* 초대장 (200:238, h 1031): text 10 (36/51) · card 857×602 at 154 · button 330×78 at 805 · note at 911 (36/45) */
-.p2-invite { padding-top: 0; min-height: calc(1031 * var(--u)); }
-html[data-invite="recipient"] .p2-invite { min-height: 0; }
-.p2-invite__desc { margin: 0; padding: calc(10 * var(--u)) calc(30 * var(--u)) 0; font-size: max(10px, calc(36 * var(--u))); line-height: calc(51 * var(--u)); color: var(--ink); white-space: nowrap; }
+/* 초대장 (200:238, h 1031): text 0 (40/55) · card 857×602 at 154 · button 348×88 at 820 · note at 931 (36/55) */
+.p2-invite { padding-top: 0; height: calc(1031 * var(--u)); }   /* the note runs 10 past the frame in Figma too */
+html[data-invite="recipient"] .p2-invite { height: auto; }
+.p2-invite__desc { margin: 0; padding: 0 calc(30 * var(--u)); font-size: max(10px, calc(40 * var(--u))); line-height: calc(55 * var(--u)); letter-spacing: calc(-1 * var(--u)); color: var(--ink); white-space: nowrap; }
 .p2-invite__card {
   position: relative;
-  margin: calc(42 * var(--u)) auto 0; width: calc(857 * var(--u)); aspect-ratio: 857 / 602;
+  margin: calc(44 * var(--u)) auto 0; width: calc(857 * var(--u)); aspect-ratio: 857 / 602;
   box-shadow:
     0 calc(155 * var(--u)) calc(44 * var(--u)) 0 rgba(0,0,0,0),
     0 calc(100 * var(--u)) calc(40 * var(--u)) 0 rgba(0,0,0,.03),
@@ -216,26 +216,26 @@ html[data-invite="recipient"] .p2-invite { min-height: 0; }
 .card-name__input::placeholder { color: rgba(15, 7, 2, .28); font-weight: 500; }
 .card-name__input:focus { background: rgba(255, 97, 10, .07); }
 /* 220:12 / 220:13 / 220:14 */
-.card-share { margin-top: calc(49 * var(--u)); display: flex; flex-direction: column; align-items: center; padding: 0 calc(30 * var(--u)); }
+.card-share { margin-top: calc(64 * var(--u)); display: flex; flex-direction: column; align-items: center; padding: 0 calc(30 * var(--u)); }
 .card-share[hidden] { display: none; }
 .card-share button {
   display: grid; place-items: center;
-  width: calc(330 * var(--u)); height: calc(78 * var(--u)); min-height: 28px; min-width: 118px;
-  border: max(1px, calc(3 * var(--u))) solid var(--orange); border-radius: calc(76 * var(--u)); background: transparent;
-  font-weight: 700; font-size: max(11px, calc(30 * var(--u))); line-height: 1; letter-spacing: calc(-1 * var(--u)); color: var(--orange);
+  width: calc(348 * var(--u)); height: calc(88 * var(--u)); min-height: 32px; min-width: 126px;
+  border: max(1px, calc(3 * var(--u))) solid var(--orange); border-radius: calc(76 * var(--u)); background: #fff;
+  font-weight: 700; font-size: max(11px, calc(36 * var(--u))); line-height: 1; letter-spacing: calc(-1 * var(--u)); color: var(--orange);
   white-space: nowrap; touch-action: manipulation;
   transition: opacity 200ms ease, background 200ms ease;
 }
 .card-share button:active { background: rgba(255, 97, 10, .08); }
 .card-share button:disabled { opacity: .4; }
-.card-share__note { margin: calc(28 * var(--u)) 0 0; font-size: max(10px, calc(36 * var(--u))); line-height: calc(45 * var(--u)); letter-spacing: calc(-1 * var(--u)); color: #000; opacity: .5; white-space: nowrap; }
+.card-share__note { margin: calc(23 * var(--u)) 0 0; font-size: max(10px, calc(36 * var(--u))); line-height: calc(55 * var(--u)); letter-spacing: calc(-1 * var(--u)); color: #000; opacity: .5; white-space: nowrap; }
 .card-share__link {
   width: 100%; max-width: 340px; margin-top: 12px; font: inherit; font-size: 13px; line-height: 1.45; padding: 8px 10px;
   border: 1px solid rgba(15,7,2,.15); border-radius: 6px; background: #fff; color: var(--ink); resize: none;
 }
 
-/* 날짜 시간 (200:184, h 906): calendar 190 · OPENING 413 · TIME 478.8 · timer 684 */
-.p2-date { min-height: calc(906 * var(--u)); margin-bottom: calc(200 * var(--u)); }
+/* 날짜 시간 (200:184, h 906): calendar 190 · OPENING 413 · TIME 487.8 · timer 684 */
+.p2-date { min-height: calc(906 * var(--u)); }
 .cal {
   display: grid; grid-template-columns: calc(148.5 * var(--u)) repeat(7, calc(110 * var(--u)));
   align-items: start; margin: calc(81.74 * var(--u)) 0 0 calc(71.5 * var(--u)); text-align: left;
@@ -253,10 +253,9 @@ html[data-invite="recipient"] .p2-invite { min-height: 0; }
 .cal__d--open .cal__n { background: rgba(255, 97, 10, .4); }
 .cal__d--on .cal__n { background: #e6e6e6; }
 .p2-date .info { margin-top: calc(103 * var(--u)); line-height: calc(43.324 * var(--u)); }
-.p2-date .info__row + .info__row { margin-top: calc(22.47 * var(--u)); }
-.info__row--time dt { padding-top: calc(3.21 * var(--u)); }
+.p2-date .info__row + .info__row { margin-top: calc(31.47 * var(--u)); }
 
-.timer { display: flex; justify-content: center; align-items: flex-start; margin-top: calc(108.94 * var(--u)); }
+.timer { display: flex; justify-content: center; align-items: flex-start; margin-top: calc(95.68 * var(--u)); }
 .timer__u { display: flex; flex-direction: column; align-items: center; }
 .timer__box {
   display: grid; place-items: center; width: calc(142.421 * var(--u)); height: calc(112.895 * var(--u));
@@ -267,24 +266,23 @@ html[data-invite="recipient"] .p2-invite { min-height: 0; }
 .timer__l { margin-top: calc(12.15 * var(--u)); font-size: max(9px, calc(32 * var(--u))); line-height: 1.42; letter-spacing: calc(-.704 * var(--u)); color: #000; }
 .timer__c { width: calc(52.11 * var(--u)); text-align: center; margin-top: calc(44.29 * var(--u)); font-weight: 800; font-size: calc(34.737 * var(--u)); line-height: calc(23.447 * var(--u)); opacity: .8; color: var(--ink); }
 
-/* 위치 (200:141, h 877): map 789×335 at 199 · PLACE 608.3 · SUBWAY 674.4 · links 787.7 (all 36 px) */
+/* 위치 (200:141, h 877): map 789×335 at 199 · PLACE 608 · SUBWAY 674 · links 821 (all 40 px) */
 .p2-loc { min-height: calc(877 * var(--u)); }
 .p2-loc__map { width: calc(789 * var(--u)); height: auto; margin: calc(90.74 * var(--u)) auto 0; }
-.p2-loc .info { margin-top: calc(74.3 * var(--u)); line-height: calc(43.549 * var(--u)); }
-.p2-loc .info__row + .info__row { margin-top: calc(22.58 * var(--u)); }
-.links { display: flex; justify-content: center; align-items: center; gap: calc(24.194 * var(--u)); margin-top: calc(23.27 * var(--u)); font-size: var(--fs-body); line-height: calc(43.549 * var(--u)); opacity: .6; }
+.p2-loc .info { margin-top: calc(74 * var(--u)); line-height: calc(43.549 * var(--u)); }
+.p2-loc .info__row + .info__row { margin-top: calc(22.45 * var(--u)); }
+.links { display: flex; justify-content: center; align-items: center; gap: calc(24.194 * var(--u)); margin-top: calc(37 * var(--u)); font-size: var(--fs-body); line-height: calc(43.549 * var(--u)); letter-spacing: calc(-1 * var(--u)); opacity: .6; }
 .links a, .links button { color: var(--ink); text-decoration: none; padding: 8px 6px; margin: -8px -6px; touch-action: manipulation; }
 .links__sep { width: max(1px, calc(2 * var(--u))); height: calc(27.958 * var(--u)); background: var(--ink); }
 
-/* 주차 (200:89, h 978): map 753×522 (render bounds) at 203.6 · text at 805 (36 px), fee at 913 (32 px) */
+/* 주차 (200:89, h 978): map 753×522 (render bounds) at 203.6 · text at 805 (40 px), fee at 943 */
 .p2-park { min-height: calc(978 * var(--u)); }
 .p2-park__map { width: calc(753 * var(--u)); height: auto; margin: calc(95.34 * var(--u)) auto 0; }
 .p2-park .info { margin-top: calc(79.7 * var(--u)); }
-.p2-park .info dt { line-height: calc(34.2 * var(--u)); }
-.p2-park .info__row { padding-right: calc(83.4 * var(--u)); }   /* Figma group 200:137 sits 26.7 left of centre */
+.p2-park .info dt { line-height: calc(34.2 * var(--u)); padding-top: calc(5 * var(--u)); letter-spacing: 0; }
 
 /* 후원사 (200:70, h 351) */
-.p2-partners { min-height: calc(351 * var(--u)); margin-bottom: calc(213 * var(--u)); }
+.p2-partners { min-height: calc(351 * var(--u)); margin-bottom: calc(133 * var(--u)); }
 .marquee { margin-top: calc(98.74 * var(--u)); overflow: hidden; height: calc(115.17 * var(--u)); padding-left: calc(40 * var(--u)); }
 .marquee__track { display: flex; align-items: center; height: 100%; width: max-content; will-change: transform; }
 .marquee__track img { width: calc(var(--w) * var(--u)); height: auto; flex: none; margin-right: calc(70 * var(--u)); }
