@@ -66,7 +66,7 @@
       <button class="sr-only" id="a11yOpen" type="button">초대장 열기</button>
     </section>
 
-    <!-- ───────────── PAGE 02 — Invitation content (Figma node 200:37) ───────────── -->
+    <!-- ───────────── PAGE 02 — Invitation content (Figma node 200:37, 1049 × 6812) ───────────── -->
     <section class="page2" id="page2" aria-label="초대장 내용" aria-hidden="true" inert>
       <div class="page2__grab" aria-hidden="true"><span></span></div>
       <div class="page2__scroll" id="page2Scroll">
@@ -109,9 +109,10 @@
               <div class="cal__d cal__d--on"><span class="cal__w">Sun.</span><span class="cal__n">22</span></div>
             </div>
           </div>
-          <dl class="info">
-            <div class="info__row"><dt>OPENING&nbsp;&nbsp;|</dt><dd>2026. 11. 19 (목) 13:00</dd></div>
-            <div class="info__row"><dt>TIME&nbsp;&nbsp;|</dt><dd>2026. 11. 19 (목) - 11. 20 (금) 10:00 - 18:00<span class="info__l2">2026. 11. 21 (토) - 11. 22 (일) 10:00 - 20:00</span></dd></div>
+          <!-- 229:3 / 229:8 — label, short rule, value (stacked, centred) -->
+          <dl class="blks">
+            <div class="blk"><dt>OPENING</dt><dd>2026. 11. 19 (목) 13:00</dd></div>
+            <div class="blk"><dt>TIME</dt><dd>2026. 11. 19 (목) - 11. 20 (금) 10:00 - 18:00<span class="blk__l2">2026. 11. 21 (토) - 11. 22 (일) 10:00 - 20:00</span></dd></div>
           </dl>
           <div class="timer" id="timer" aria-label="오프닝까지 남은 시간">
             <div class="timer__u"><span class="timer__box" data-k="d">00</span><span class="timer__l">DAY</span></div>
@@ -128,23 +129,27 @@
         <section class="p2-sec p2-loc">
           <h2 class="p2-title">LOCATIONS</h2>
           <img class="p2-loc__map" src="assets/figma/map.png" alt="약도: 2호선 성수역 2·3번 출구에서 HAESO 해소 성수까지" width="1578" height="670" />
-          <dl class="info">
-            <div class="info__row"><dt>PLACE&nbsp;&nbsp;|</dt><dd>서울특별시 성동구 성수이로24길 31 HAESO 해소</dd></div>
-            <div class="info__row"><dt>SUBWAY&nbsp;&nbsp;|</dt><dd class="info__ml">지하철 2호선 성수역 하차 후 2번출구에서<br />도보 10분 소요</dd></div>
+          <!-- 229:15 PLACE · 200:148 links · 229:19 SUBWAY -->
+          <dl class="blks">
+            <div class="blk"><dt>PLACE</dt><dd>서울특별시 성동구 성수이로24길 31 HAESO 해소</dd></div>
           </dl>
           <div class="links">
             <a href="https://map.naver.com/p/search/%EC%84%B1%EC%88%98%EC%9D%B4%EB%A1%9C24%EA%B8%B8%2031" target="_blank" rel="noopener">네이버 길찾기</a>
             <span class="links__sep" aria-hidden="true"></span>
             <button type="button" id="copyAddr" data-addr="서울특별시 성동구 성수이로24길 31">주소 복사</button>
           </div>
+          <dl class="blks blks--subway">
+            <div class="blk"><dt>SUBWAY</dt><dd class="blk__ml">지하철 2호선 성수역 하차 후 2번출구에서<br />도보 10분 소요</dd></div>
+          </dl>
         </section>
 
         <!-- 주차 200:89 -->
         <section class="p2-sec p2-park">
           <h2 class="p2-title">PARKING</h2>
           <img class="p2-park__map" src="assets/figma/parking-map.png" alt="주차 약도: HAESO 해소 성수 주변 공영주차장 5곳과 유료 공영주차장" width="1506" height="1044" />
-          <dl class="info">
-            <div class="info__row"><dt>PARKING&nbsp;&nbsp;|</dt><dd class="info__ml">성수 2가 1,3동 공영 주차장 이용<br />(차로 각각 5분,3분 소요)<span class="info__dim">1시간 기준 3,200원 (5분당 250원)</span></dd></div>
+          <!-- 229:75 -->
+          <dl class="blks">
+            <div class="blk"><dt>PARKING</dt><dd class="blk__ml">성수 2가 1,3동 공영 주차장 이용<br />(차로 각각 5분,3분 소요)</dd><dd class="blk__fee">1시간 기준 3,200원 (5분당 250원)</dd></div>
           </dl>
         </section>
 

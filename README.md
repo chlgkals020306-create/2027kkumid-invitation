@@ -137,7 +137,7 @@ Keep `favicon.ico` at the site root. KakaoTalk's link preview uses `og:image`, n
 
 Assets were exported from the file (Page 3 → `invitation page1` 185:4 / `초대장 페이지 2` 200:37, revised 2026-11-06) into `assets/figma/`.
 1 Figma px = `--u` = `min(100vw, 480px) / 1049`.
-Page 2 reproduces the frame's section positions exactly (5920 Figma px tall). Body text is Figma's 27 px; a 10 px floor only applies on very narrow phones.
+Page 2 reproduces the frame's section positions exactly (6812 Figma px tall): info items are stacked (Bold label, short rule, value), body text 40 px. A small legibility floor applies only to the footer text on phones.
 The invitation inner page, location map and parking map are 2× exports of the Figma nodes. The card's drop shadow is rebuilt in CSS from Figma's five shadow layers.
 The sponsor row (wider than the frame in Figma) holds, then steps one logo to the left, on a loop.
 

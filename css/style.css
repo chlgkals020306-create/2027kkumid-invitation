@@ -72,12 +72,12 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .app[data-ready="1"] .page1__canvas { opacity: 1; }
 
-/* Figma 185:10 — logo, 244×167 at top 64 (frame offset −17), visual centre −25.6 */
+/* Figma 229:80 — logo, 234×176 at top 59, centred */
 .page1__logo {
   position: absolute; z-index: 3; pointer-events: none;
-  top: calc(var(--safe-t) + 64 * var(--u));
-  left: 50%; width: calc(244 * var(--u)); height: auto;
-  transform: translateX(calc(-50% - 25.6 * var(--u)));
+  top: calc(var(--safe-t) + 59 * var(--u));
+  left: 50%; width: calc(234 * var(--u)); height: auto;
+  transform: translateX(calc(-50% + .5 * var(--u)));
 }
 /* Figma 220:7 (page 1, 1049 × 2270): swipe cue 220:6 at top 1683 + two-line hint 185:24 at 1757.
    Vertical positions are fractions of the viewport height (the frame is a phone screen), sizes are --u. */
@@ -164,9 +164,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .page2__scroll > * { width: var(--col); margin-left: auto; margin-right: auto; }
 
-/* Figma 200:37 (page 2, 1049 wide). Section tops: 초대장 224 · 날짜 1535 · 위치 2721 · 주차 3878 ·
-   후원사 5136 · footer 5620 — each section has the Figma height as min-height and the
-   gap to the next section as margin-bottom (280; 133 before the footer). */
+/* Figma 200:37 (page 2, 1049 × 6812). Section tops: 초대장 224 · 날짜 1535 · 위치 3028 · 주차 4532 ·
+   후원사 5965 · footer 6512 — each section has the Figma height as min-height and the
+   gap to the next section as margin-bottom (280; 196 before the footer). */
 .p2-top { padding-top: calc(var(--safe-t) + 69 * var(--u)); height: calc(224 * var(--u) + var(--safe-t)); }
 .p2-top__logo { width: calc(96 * var(--u)); height: auto; margin: 0 auto; }
 
@@ -177,15 +177,17 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   font-size: calc(64 * var(--u)); line-height: calc(58.26 * var(--u)); letter-spacing: calc(-3 * var(--u));
 }
 
-/* info rows: "LABEL  |  value" — Pretendard 40 / -1, label Bold, value Regular; each row centred as a group */
-.info { margin: 0; color: var(--ink); font-size: var(--fs-body); line-height: calc(43.4 * var(--u)); letter-spacing: calc(-1 * var(--u)); }
-.info__row { display: flex; justify-content: center; gap: calc(21 * var(--u)); padding: 0 calc(30 * var(--u)); }
-.info__row + .info__row { margin-top: calc(22.5 * var(--u)); }
-.info dt { font-weight: 700; white-space: pre; flex: none; }
-.info dd { margin: 0; text-align: left; white-space: nowrap; }
-.info__ml { line-height: calc(55 * var(--u)); }        /* two-line values (SUBWAY, PARKING) */
-.info__l2 { display: block; margin-top: calc(13.89 * var(--u)); }
-.info__dim { display: block; opacity: .4; line-height: calc(34.2 * var(--u)); margin-top: calc(28 * var(--u)); }
+/* info blocks (229:3 …): Bold label, 34 × 3 rule, Regular value — stacked and centred, 40 px / −1.
+   Rule centre 84 below the label top; value top 124 below it. --lh = the label line box. */
+.blks { margin: 0; color: var(--ink); font-size: var(--fs-body); letter-spacing: calc(-1 * var(--u)); text-align: center; --lh: 43.324; }
+.blk dt { font-weight: 700; line-height: calc(var(--lh) * var(--u)); }
+.blk dt::after {
+  content: ""; display: block; width: calc(34 * var(--u)); height: max(1px, calc(3 * var(--u))); background: var(--ink);
+  margin: calc((82.5 - var(--lh)) * var(--u)) auto 0;
+}
+.blk dd { margin: calc(38.5 * var(--u)) 0 0; line-height: calc(var(--lh) * var(--u)); white-space: nowrap; }
+.blk dd.blk__ml { line-height: calc(55 * var(--u)); }      /* two-line values (SUBWAY, PARKING) */
+.blk__l2 { display: block; margin-top: calc(13.89 * var(--u)); }
 
 /* 초대장 (200:238, h 1031): text 0 (40/55) · card 857×602 at 154 · button 348×88 at 820 · note at 931 (36/55) */
 .p2-invite { padding-top: 0; height: calc(1031 * var(--u)); }   /* the note runs 10 past the frame in Figma too */
@@ -235,7 +237,7 @@ html[data-invite="recipient"] .p2-invite { height: auto; }
 }
 
 /* 날짜 시간 (200:184, h 906): calendar 190 · OPENING 413 · TIME 487.8 · timer 684 */
-.p2-date { min-height: calc(906 * var(--u)); }
+.p2-date { min-height: calc(1213 * var(--u)); }
 .cal {
   display: grid; grid-template-columns: calc(148.5 * var(--u)) repeat(7, calc(110 * var(--u)));
   align-items: start; margin: calc(81.74 * var(--u)) 0 0 calc(71.5 * var(--u)); text-align: left;
@@ -252,10 +254,10 @@ html[data-invite="recipient"] .p2-invite { height: auto; }
 }
 .cal__d--open .cal__n { background: rgba(255, 97, 10, .4); }
 .cal__d--on .cal__n { background: #e6e6e6; }
-.p2-date .info { margin-top: calc(103 * var(--u)); line-height: calc(43.324 * var(--u)); }
-.p2-date .info__row + .info__row { margin-top: calc(31.47 * var(--u)); }
+.p2-date .blks { margin-top: calc(102 * var(--u)); }                 /* OPENING at 412 */
+.p2-date .blk + .blk { margin-top: calc(80.68 * var(--u)); }          /* TIME at 660 */
 
-.timer { display: flex; justify-content: center; align-items: flex-start; margin-top: calc(95.68 * var(--u)); }
+.timer { display: flex; justify-content: center; align-items: flex-start; margin-top: calc(100.68 * var(--u)); }   /* timer at 985.2 */
 .timer__u { display: flex; flex-direction: column; align-items: center; }
 .timer__box {
   display: grid; place-items: center; width: calc(142.421 * var(--u)); height: calc(112.895 * var(--u));
@@ -266,23 +268,24 @@ html[data-invite="recipient"] .p2-invite { height: auto; }
 .timer__l { margin-top: calc(12.15 * var(--u)); font-size: max(9px, calc(32 * var(--u))); line-height: 1.42; letter-spacing: calc(-.704 * var(--u)); color: #000; }
 .timer__c { width: calc(52.11 * var(--u)); text-align: center; margin-top: calc(44.29 * var(--u)); font-weight: 800; font-size: calc(34.737 * var(--u)); line-height: calc(23.447 * var(--u)); opacity: .8; color: var(--ink); }
 
-/* 위치 (200:141, h 877): map 789×335 at 199 · PLACE 608 · SUBWAY 674 · links 821 (all 40 px) */
-.p2-loc { min-height: calc(877 * var(--u)); }
+/* 위치 (200:141, h 1224): map 789×335 at 199 · PLACE 622 · links 820 · SUBWAY 944 (all 40 px) */
+.p2-loc { min-height: calc(1224 * var(--u)); }
 .p2-loc__map { width: calc(789 * var(--u)); height: auto; margin: calc(90.74 * var(--u)) auto 0; }
-.p2-loc .info { margin-top: calc(74 * var(--u)); line-height: calc(43.549 * var(--u)); }
-.p2-loc .info__row + .info__row { margin-top: calc(22.45 * var(--u)); }
-.links { display: flex; justify-content: center; align-items: center; gap: calc(24.194 * var(--u)); margin-top: calc(37 * var(--u)); font-size: var(--fs-body); line-height: calc(43.549 * var(--u)); letter-spacing: calc(-1 * var(--u)); opacity: .6; }
+.p2-loc .blks { margin-top: calc(88 * var(--u)); --lh: 43.549; }
+.p2-loc .blks--subway { margin-top: calc(80.45 * var(--u)); }
+.links { display: flex; justify-content: center; align-items: center; gap: calc(24.194 * var(--u)); margin-top: calc(30.45 * var(--u)); font-size: var(--fs-body); line-height: calc(43.549 * var(--u)); letter-spacing: calc(-1 * var(--u)); opacity: .6; }
 .links a, .links button { color: var(--ink); text-decoration: none; padding: 8px 6px; margin: -8px -6px; touch-action: manipulation; }
 .links__sep { width: max(1px, calc(2 * var(--u))); height: calc(27.958 * var(--u)); background: var(--ink); }
 
-/* 주차 (200:89, h 978): map 753×522 (render bounds) at 203.6 · text at 805 (40 px), fee at 943 */
-.p2-park { min-height: calc(978 * var(--u)); }
+/* 주차 (200:89, h 1153): map 753×522 (render bounds) at 203.6 · PARKING 807 · value 931 · fee 1066 */
+.p2-park { min-height: calc(1153 * var(--u)); }
 .p2-park__map { width: calc(753 * var(--u)); height: auto; margin: calc(95.34 * var(--u)) auto 0; }
-.p2-park .info { margin-top: calc(79.7 * var(--u)); }
-.p2-park .info dt { line-height: calc(34.2 * var(--u)); padding-top: calc(5 * var(--u)); letter-spacing: 0; }
+.p2-park .blks { margin-top: calc(81.7 * var(--u)); --lh: 34.2; }
+.p2-park .blk dt { letter-spacing: 0; }
+.blk__fee { opacity: .4; line-height: calc(34.2 * var(--u)); margin-top: calc(25 * var(--u)) !important; }
 
 /* 후원사 (200:70, h 351) */
-.p2-partners { min-height: calc(351 * var(--u)); margin-bottom: calc(133 * var(--u)); }
+.p2-partners { min-height: calc(351 * var(--u)); margin-bottom: calc(196 * var(--u)); }
 .marquee { margin-top: calc(98.74 * var(--u)); overflow: hidden; height: calc(115.17 * var(--u)); padding-left: calc(40 * var(--u)); }
 .marquee__track { display: flex; align-items: center; height: 100%; width: max-content; will-change: transform; }
 .marquee__track img { width: calc(var(--w) * var(--u)); height: auto; flex: none; margin-right: calc(70 * var(--u)); }
@@ -290,10 +293,10 @@ html[data-invite="recipient"] .p2-invite { height: auto; }
 /* Footer */
 .p2-foot { background: var(--foot-bg); min-height: calc(300 * var(--u)); padding: calc(54.4 * var(--u)) calc(40 * var(--u)) calc(var(--safe-b) + 40 * var(--u)); width: 100% !important; }
 .p2-foot > * { max-width: calc(var(--col) - 80 * var(--u)); margin-left: auto; margin-right: auto; }
-.p2-foot__top { display: flex; align-items: flex-start; gap: calc(31 * var(--u)); height: calc(68.565 * var(--u)); }   /* the line sits 20 below the logo, even though the name runs a little lower */
+.p2-foot__top { display: flex; align-items: flex-start; gap: calc(31 * var(--u)); }
 .p2-foot__logo { width: calc(91 * var(--u)); height: auto; flex: none; }
-.p2-foot__name { margin: calc(20.56 * var(--u)) 0 0; font-weight: 600; font-size: max(9px, calc(20 * var(--u))); line-height: 1.35; letter-spacing: calc(-.2 * var(--u)); text-transform: uppercase; color: var(--ink-2); opacity: .7; }
-.p2-foot__line { border: 0; height: 0; border-top: .5px solid rgba(0, 0, 0, .2); margin-top: calc(20 * var(--u)); margin-bottom: 0; }
+.p2-foot__name { margin: calc(29.56 * var(--u)) 0 0; font-weight: 600; font-size: max(9px, calc(16 * var(--u))); line-height: 1.375; letter-spacing: calc(-.2 * var(--u)); text-transform: uppercase; color: var(--ink-2); opacity: .7; }
+.p2-foot__line { border: 0; height: 0; border-top: .5px solid rgba(0, 0, 0, .2); margin-top: calc(15 * var(--u)); margin-bottom: 0; }   /* 15 below the name (Figma 128 → 143) */
 .p2-foot__copy { margin: calc(17.5 * var(--u)) 0 0 auto; text-align: right; font-size: max(8px, calc(14 * var(--u))); line-height: 1.1; letter-spacing: calc(-.2 * var(--u)); text-transform: uppercase; color: #000; opacity: .2; }
 
 /* toast + fatal */
