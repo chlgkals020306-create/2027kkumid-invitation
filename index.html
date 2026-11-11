@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#3f5e1f" />
+  <meta name="format-detection" content="telephone=no" />
+  <!-- keep the Figma colours: opt out of Samsung Internet / Android WebView forced dark mode -->
+  <meta name="color-scheme" content="only light" />
+  <title>Rare Taste — 제36회 졸업전시회 초대장</title>
+  <!-- site icon (browser tab, bookmarks, home screen) -->
+  <link rel="icon" href="favicon.ico" sizes="48x48" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <meta name="description" content="저희의 취향과 색으로 완성한 작품들이 한자리에 모인 특별한 순간에 당신을 초대합니다. 아래 초대장을 열어 특별한 순간을 함께해 주세요! Keep It Rare!" />
+  <!-- Link preview (KakaoTalk, iMessage, etc.). Kakao reads these without running JS.
+       og:image / og:url must be ABSOLUTE after deployment — see README → "Sharing". -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Rare Taste" />
+  <meta property="og:title" content="Rare Taste — 제36회 졸업전시회 초대장" />
+  <meta property="og:description" content="저희의 취향과 색으로 완성한 작품들이 한자리에 모인 특별한 순간에 당신을 초대합니다. 아래 초대장을 열어 특별한 순간을 함께해 주세요! Keep It Rare!" />
+  <meta property="og:image" content="assets/share/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preload" href="assets/figma/bg-page1.jpg" as="image" />
+  <link rel="preload" href="assets/models/invite.gltf" as="fetch" crossorigin />
+  <!-- Adobe Fonts kit: Caesura Bold (Figma titles) -->
+  <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+  <link rel="preconnect" href="https://p.typekit.net" crossorigin />
+  <link rel="stylesheet" href="https://use.typekit.net/sut8xhy.css" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://use.typekit.net/sut8xhy.css" /></noscript>
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three/three.module.js", "three/addons/": "./vendor/three/addons/" } }
+  </script>
+</head>
+<body>
+  <div class="app" id="app" data-state="LOADING">
+
+    <!-- ───────────── PAGE 01 — Interactive 3D invitation (Figma node 185:4) ───────────── -->
+    <section class="page1" id="page1" aria-label="3D 초대장">
+      <div class="page1__bg" aria-hidden="true"></div>
+      <canvas class="page1__canvas" id="stage" aria-hidden="true"></canvas>
+
+      <img class="page1__logo" src="assets/figma/logo-page1-white.png" alt="Rare TASTE" width="244" height="167" />
+
+      <div class="loader" id="loader" role="status" aria-live="polite">
+        <span class="loader__bar"><span class="loader__fill" id="loaderFill"></span></span>
+        <span class="loader__label" id="loaderLabel">Loading</span>
+      </div>
+
+      <!-- Figma 220:7 — swipe cue (white dot rising inside a rounded stroke) + two-line hint -->
+      <div class="page1__cue" id="hint">
+        <span class="swipe" aria-hidden="true"><span class="swipe__dot"></span></span>
+        <p class="page1__hint">위쪽으로 스와이프 해보세요!<br />카드가 열릴 거에요</p>
+      </div>
+
+      <!-- iOS only: the motion-permission prompt can only follow a tap, so the first screen asks for one -->
+      <button class="tap-gate" id="tapGate" type="button" hidden><span>화면을 터치해<br />초대장을 시작하세요</span></button>
+
+      <!-- keyboard / screen-reader access to the same transitions -->
+      <button class="sr-only" id="a11yOpen" type="button">초대장 열기</button>
+    </section>
+
+    <!-- ───────────── PAGE 02 — Invitation content (Figma node 200:37, 1049 × 6812) ───────────── -->
+    <section class="page2" id="page2" aria-label="초대장 내용" aria-hidden="true" inert>
+      <div class="page2__grab" aria-hidden="true"><span></span></div>
+      <div class="page2__scroll" id="page2Scroll">
+        <header class="p2-top">
+          <img class="p2-top__logo" src="assets/figma/logo-page2-r.png" alt="Rare Taste" width="78" height="45" />
+        </header>
+
+        <!-- 초대장 200:238 -->
+        <section class="p2-sec p2-invite">
+          <p class="p2-invite__desc">제36회 건국대학교 글로컬캠퍼스 시각영상디자인학과<br />영상/디지털트랙 졸업전시회에 당신을 초대합니다!</p>
+          <div class="p2-invite__card" id="inviteCard">
+            <img src="assets/figma/invitation-card.png" alt="초대장: YOU'RE INVITED! 2026.11.19–11.22" width="1714" height="1204" loading="eager" />
+            <div class="card-name card-name--to" data-name="to">
+              <input class="card-name__input" type="text" placeholder="받는 분" aria-label="받는 분 이름 (To.)" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="next" />
+              <span class="card-name__text" hidden></span>
+            </div>
+            <div class="card-name card-name--from" data-name="from">
+              <input class="card-name__input" type="text" placeholder="보내는 분" aria-label="보내는 분 이름 (From.)" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" />
+              <span class="card-name__text" hidden></span>
+            </div>
+          </div>
+          <div class="card-share" id="cardShare" hidden>
+            <button type="button" id="shareLink">초대장 링크 복사하기</button>
+            <p class="card-share__note">To / From 에 이름을 적고 링크를 상대에게 보내주세요!<br />받는 분은 이름을 바꿀 수 없어요</p>
+          </div>
+        </section>
+
+        <!-- 날짜 시간 200:184 -->
+        <section class="p2-sec p2-date">
+          <h2 class="p2-title">DATE &amp; HOURS</h2>
+          <div class="cal" role="table" aria-label="2026년 11월 전시 일정">
+            <div class="cal__month" role="rowheader"><span class="cal__mm">11</span><span class="cal__name">November</span></div>
+            <div class="cal__days" role="row">
+              <div class="cal__d"><span class="cal__w">Mon.</span><span class="cal__n">16</span></div>
+              <div class="cal__d"><span class="cal__w">Tue.</span><span class="cal__n">17</span></div>
+              <div class="cal__d"><span class="cal__w">Wed.</span><span class="cal__n">18</span></div>
+              <div class="cal__d cal__d--open"><span class="cal__w">Thu.</span><span class="cal__n">19</span></div>
+              <div class="cal__d cal__d--on"><span class="cal__w">Fri.</span><span class="cal__n">20</span></div>
+              <div class="cal__d cal__d--on"><span class="cal__w">Sat.</span><span class="cal__n">21</span></div>
+              <div class="cal__d cal__d--on"><span class="cal__w">Sun.</span><span class="cal__n">22</span></div>
+            </div>
+          </div>
+          <!-- 229:3 / 229:8 — label, short rule, value (stacked, centred) -->
+          <dl class="blks">
+            <div class="blk"><dt>OPENING</dt><dd>2026. 11. 19 (목) 13:00</dd></div>
+            <div class="blk"><dt>TIME</dt><dd>2026. 11. 19 (목) - 11. 20 (금) 10:00 - 18:00<span class="blk__l2">2026. 11. 21 (토) - 11. 22 (일) 10:00 - 20:00</span></dd></div>
+          </dl>
+          <div class="timer" id="timer" aria-label="오프닝까지 남은 시간">
+            <div class="timer__u"><span class="timer__box" data-k="d">00</span><span class="timer__l">DAY</span></div>
+            <span class="timer__c">:</span>
+            <div class="timer__u"><span class="timer__box" data-k="h">00</span><span class="timer__l">HR</span></div>
+            <span class="timer__c">:</span>
+            <div class="timer__u"><span class="timer__box" data-k="m">00</span><span class="timer__l">MIN</span></div>
+            <span class="timer__c">:</span>
+            <div class="timer__u"><span class="timer__box" data-k="s">00</span><span class="timer__l">SEC</span></div>
+          </div>
+        </section>
+
+        <!-- 위치 200:141 -->
+        <section class="p2-sec p2-loc">
+          <h2 class="p2-title">LOCATIONS</h2>
+          <img class="p2-loc__map" src="assets/figma/map.png" alt="약도: 2호선 성수역 2·3번 출구에서 HAESO 해소 성수까지" width="1578" height="670" />
+          <!-- 229:15 PLACE · 200:148 links · 229:19 SUBWAY -->
+          <dl class="blks">
+            <div class="blk"><dt>PLACE</dt><dd>서울특별시 성동구 성수이로24길 31 HAESO 해소</dd></div>
+          </dl>
+          <div class="links">
+            <a href="https://map.naver.com/p/search/%EC%84%B1%EC%88%98%EC%9D%B4%EB%A1%9C24%EA%B8%B8%2031" target="_blank" rel="noopener">네이버 길찾기</a>
+            <span class="links__sep" aria-hidden="true"></span>
+            <button type="button" id="copyAddr" data-addr="서울특별시 성동구 성수이로24길 31">주소 복사</button>
+          </div>
+          <dl class="blks blks--subway">
+            <div class="blk"><dt>SUBWAY</dt><dd class="blk__ml">지하철 2호선 성수역 하차 후 2번출구에서<br />도보 10분 소요</dd></div>
+          </dl>
+        </section>
+
+        <!-- 주차 200:89 -->
+        <section class="p2-sec p2-park">
+          <h2 class="p2-title">PARKING</h2>
+          <img class="p2-park__map" src="assets/figma/parking-map.png" alt="주차 약도: HAESO 해소 성수 주변 공영주차장 5곳과 유료 공영주차장" width="1506" height="1044" />
+          <!-- 229:75 -->
+          <dl class="blks">
+            <div class="blk"><dt>PARKING</dt><dd class="blk__ml">성수 2가 1,3동 공영 주차장 이용<br />(차로 각각 5분,3분 소요)</dd><dd class="blk__fee">1시간 기준 3,200원 (5분당 250원)</dd></div>
+          </dl>
+        </section>
+
+        <!-- 후원사 200:70 -->
+        <section class="p2-sec p2-partners">
+          <h2 class="p2-title">PARTNERS</h2>
+          <div class="marquee" id="marquee" aria-label="후원사">
+            <div class="marquee__track" id="marqueeTrack">
+              <img src="assets/figma/sponsors/01-rixfont.png" alt="RixFont" style="--w:142.8" />
+              <img src="assets/figma/sponsors/02-cabooks.png" alt="CA BOOKS" style="--w:130.7" />
+              <img src="assets/figma/sponsors/11-sagwadang.png" alt="사과당 CAFE &amp; BAKERY" style="--w:114" />
+              <img src="assets/figma/sponsors/03-bundaberg.png" alt="Bundaberg" style="--w:172.5" />
+              <img src="assets/figma/sponsors/04-adsland.png" alt="Print Platform ADSLAND" style="--w:165.2" />
+              <img src="assets/figma/sponsors/05-dancing-cider.png" alt="Dancing Cider" style="--w:125.7" />
+              <img src="assets/figma/sponsors/06-epson.png" alt="EPSON" style="--w:152" />
+              <img src="assets/figma/sponsors/07-dyi-workshop.png" alt="DYI WORKSHOP" style="--w:122.5" />
+              <img src="assets/figma/sponsors/08-archit-lounge.png" alt="아키라운지" style="--w:115.2" />
+              <img src="assets/figma/sponsors/09-sandol.png" alt="산돌구름" style="--w:142" />
+              <img src="assets/figma/sponsors/10-winenara.png" alt="WINENARA" style="--w:159.2" />
+            </div>
+          </div>
+        </section>
+
+        <!-- Footer 200:38 -->
+        <footer class="p2-foot">
+          <div class="p2-foot__top">
+            <img class="p2-foot__logo" src="assets/figma/logo-footer.png" alt="Rare TASTE" width="91" height="69" />
+            <p class="p2-foot__name">2027 건국대학교 글로컬캠퍼스 시각영상디자인학과<br />제 36회 영상/디지털트랙 졸업전시회</p>
+          </div>
+          <hr class="p2-foot__line" />
+          <p class="p2-foot__copy">© 2026 Graduation Exhibition. All rights reserved.</p>
+        </footer>
+      </div>
+      <button class="sr-only" id="a11yBack" type="button">3D 초대장으로 돌아가기</button>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="fatal" id="fatal" hidden></div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+/* ==========================================================================
+   Rare Taste — 3D mobile invitation
+   Design source: Figma "졸준위 웹사이트" → Page 3 → invitation page1 (185:4) / page2 (185:28)
+   The Figma frames are 1049px wide. 1 Figma px = 1 --u. On phones --u = 100vw/1049;
+   on desktop the experience is previewed in a phone-width column (max 480px).
+   ========================================================================== */
+
+@font-face { font-family: "Pretendard"; font-weight: 400; font-display: swap; src: url("../assets/fonts/Pretendard-Regular.subset.woff2") format("woff2"); }
+@font-face { font-family: "Pretendard"; font-weight: 500; font-display: swap; src: url("../assets/fonts/Pretendard-Medium.subset.woff2") format("woff2"); }
+@font-face { font-family: "Pretendard"; font-weight: 600; font-display: swap; src: url("../assets/fonts/Pretendard-SemiBold.subset.woff2") format("woff2"); }
+@font-face { font-family: "Pretendard"; font-weight: 700; font-display: swap; src: url("../assets/fonts/Pretendard-Bold.subset.woff2") format("woff2"); }
+@font-face { font-family: "Pretendard"; font-weight: 800; font-display: swap; src: url("../assets/fonts/Pretendard-ExtraBold.subset.woff2") format("woff2"); }
+/* Figma titles use Caesura Bold — served by the Adobe Fonts kit linked in index.html
+   (family "caesura", weight 700). Bodoni Moda Bold (OFL) is only a fallback for when the
+   kit cannot load (offline, or a domain not added to the kit in Adobe Fonts). */
+@font-face { font-family: "Display Fallback"; font-weight: 700; font-display: swap; src: url("../assets/fonts/BodoniModa-Bold-display.woff") format("woff"); }
+
+:root {
+  color-scheme: only light;
+  --font-display: "caesura", "Display Fallback", Didot, serif;
+  --u: calc(min(100vw, 480px) / 1049);
+  --col: min(100vw, 480px);
+  --orange: #ff610a;
+  --ink: #0f0702;
+  --ink-2: #0f0703;
+  --paper-bg: #fbfbfb;
+  --foot-bg: #f5f5f5;
+  --felt: #3f5e1f;
+  --ease-sheet: cubic-bezier(.22, .9, .24, 1);
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  /* legible floors for type that would fall under ~11px at 1/2.69 scale */
+  --fs-body: max(10px, calc(40 * var(--u)));
+  --fs-small: max(11px, calc(16 * var(--u)));
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--felt); }
+body {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  color: var(--ink);
+  overflow: hidden;              /* the document never scrolls; page 2 scrolls inside itself */
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+img { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+.sr-only { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.sr-only:focus-visible { position: fixed !important; width: auto; height: auto; clip: auto; z-index: 99; left: 12px; bottom: 12px; padding: 8px 12px; background: #fff; color: #000; border-radius: 4px; }
+
+.app { position: fixed; inset: 0; overflow: hidden; }
+
+/* ───────────────────────── PAGE 01 ───────────────────────── */
+.page1 {
+  position: absolute; inset: 0; overflow: hidden;
+  touch-action: none;                 /* all vertical gestures belong to the card */
+  user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+  transform-origin: 50% 40%;
+  will-change: transform, filter;
+}
+/* Figma 185:6 — felt + leaf-shadow photograph (exported crop of the 1049×2270 frame) */
+.page1::after { content: ""; position: absolute; inset: 0; z-index: 5; background: #0b1405; opacity: var(--dim, 0); pointer-events: none; }
+.page1__bg {
+  position: absolute; inset: -2%;
+  background: var(--felt) url("../assets/figma/bg-page1.jpg") center / cover no-repeat;
+  transform: translate3d(var(--bgx, 0px), var(--bgy, 0px), 0);
+}
+.page1__canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+  opacity: 0; transition: opacity 900ms ease;
+}
+.app[data-ready="1"] .page1__canvas { opacity: 1; }
+
+/* Figma 229:80 — logo, 234×176 at top 59, centred */
+.page1__logo {
+  position: absolute; z-index: 3; pointer-events: none;
+  top: calc(var(--safe-t) + 59 * var(--u));
+  left: 50%; width: calc(234 * var(--u)); height: auto;
+  transform: translateX(calc(-50% + .5 * var(--u)));
+}
+/* Figma 220:7 (page 1, 1049 × 2270): swipe cue 220:6 at top 1683 + two-line hint 185:24 at 1757.
+   Vertical positions are fractions of the viewport height (the frame is a phone screen), sizes are --u. */
+.page1__cue {
+  position: absolute; z-index: 3; left: 0; right: 0; top: 74.14%;
+  display: flex; flex-direction: column; align-items: center;
+  pointer-events: none;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+.app[data-ready="1"][data-state="CLOSED"] .page1__cue { opacity: 1; transform: none; }
+.app[data-gate="1"] .page1__cue { visibility: hidden; }
+/* 220:3 — rounded-rect stroke 29 × 60.522, 2.522 white border, r 27.739 */
+.swipe {
+  position: relative; flex: none;
+  width: calc(29 * var(--u)); height: calc(60.522 * var(--u));
+  min-width: 11px; min-height: 23px;                 /* keeps the cue readable on very narrow screens */
+  border: max(1px, calc(2.522 * var(--u))) solid #fff; border-radius: calc(27.739 * var(--u));
+}
+/* 220:4 — white dot 16.391, resting at the bottom of the stroke (inset 6.3); it rises to the top
+   inside the stroke, fades, and starts again — "swipe up". */
+.swipe__dot {
+  position: absolute; left: 50%; bottom: calc(6.3 * var(--u) - max(1px, calc(2.522 * var(--u))));
+  width: calc(16.391 * var(--u)); height: calc(16.391 * var(--u)); min-width: 6px; min-height: 6px;
+  margin-left: calc(-8.1955 * var(--u));
+  border-radius: 50%; background: #fff;
+  --rise: calc(-31.53 * var(--u));
+  animation: swipe-rise 1.9s cubic-bezier(.55, 0, .25, 1) infinite;
+}
+@keyframes swipe-rise {
+  0%   { transform: translateY(0); opacity: 0; }
+  12%  { transform: translateY(0); opacity: 1; }
+  62%  { transform: translateY(var(--rise)); opacity: 1; }
+  82%  { transform: translateY(var(--rise)); opacity: 0; }
+  100% { transform: translateY(var(--rise)); opacity: 0; }
+}
+/* 185:24 — Pretendard Medium 36 / 1.42, white, centred; 74 below the top of the cue */
+.page1__hint {
+  margin: calc(13.478 * var(--u)) 0 0; text-align: center; color: #fff;
+  font-weight: 500; font-size: max(12px, calc(36 * var(--u))); line-height: 1.42; letter-spacing: -.01em;
+}
+
+.tap-gate {
+  position: absolute; inset: 0; z-index: 6; margin: 0; padding: 0; border: 0; background: transparent;
+  cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+}
+.tap-gate[hidden] { display: none; }
+.tap-gate span {
+  position: absolute; left: 0; right: 0; top: 77.4%; text-align: center; color: #fff;
+  font-weight: 500; font-size: max(12px, calc(36 * var(--u))); line-height: 1.42;
+  animation: hint-breathe 3.2s ease-in-out .6s infinite;
+}
+@keyframes hint-breathe { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
+
+.loader {
+  position: absolute; z-index: 3; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  color: rgba(255,255,255,.85); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  transition: opacity 500ms ease;
+}
+.loader__bar { width: 72px; height: 1px; background: rgba(255,255,255,.28); overflow: hidden; }
+.loader__fill { display: block; height: 100%; width: 100%; background: #fff; transform-origin: 0 50%; transform: scaleX(0); transition: transform 240ms ease; }
+.app[data-ready="1"] .loader { opacity: 0; pointer-events: none; }
+
+/* ───────────────────────── PAGE 02 ───────────────────────── */
+.page2 {
+  position: absolute; inset: 0; z-index: 10;
+  background: var(--paper-bg);
+  transform: translate3d(0, 100%, 0);  /* parked below the viewport */
+  visibility: hidden;
+  will-change: transform;
+  box-shadow: 0 -18px 40px rgba(10, 20, 4, .22);
+  border-radius: 14px 14px 0 0;
+}
+.app[data-page2="1"] .page2 { visibility: visible; }
+.page2__grab { position: absolute; z-index: 2; top: 0; left: 0; right: 0; height: 22px; display: flex; justify-content: center; align-items: center; pointer-events: none; }
+.page2__grab span { width: 36px; height: 3px; border-radius: 2px; background: rgba(15, 7, 3, .14); }
+.page2__scroll {
+  position: absolute; inset: 0;
+  overflow-y: auto; overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+.page2__scroll > * { width: var(--col); margin-left: auto; margin-right: auto; }
+
+/* Figma 200:37 (page 2, 1049 × 6812). Section tops: 초대장 224 · 날짜 1535 · 위치 3028 · 주차 4532 ·
+   후원사 5965 · footer 6512 — each section has the Figma height as min-height and the
+   gap to the next section as margin-bottom (280; 196 before the footer). */
+.p2-top { padding-top: calc(var(--safe-t) + 69 * var(--u)); height: calc(224 * var(--u) + var(--safe-t)); }
+.p2-top__logo { width: calc(96 * var(--u)); height: auto; margin: 0 auto; }
+
+.p2-sec { position: relative; text-align: center; padding-top: calc(50 * var(--u)); margin-bottom: calc(280 * var(--u)); }
+.p2-title {
+  margin: 0; color: var(--orange);
+  font-family: var(--font-display); font-weight: 700;
+  font-size: calc(64 * var(--u)); line-height: calc(58.26 * var(--u)); letter-spacing: calc(-3 * var(--u));
+}
+
+/* info blocks (229:3 …): Bold label, 34 × 3 rule, Regular value — stacked and centred, 40 px / −1.
+   Rule centre 84 below the label top; value top 124 below it. --lh = the label line box. */
+.blks { margin: 0; color: var(--ink); font-size: var(--fs-body); letter-spacing: calc(-1 * var(--u)); text-align: center; --lh: 43.324; }
+.blk dt { font-weight: 700; line-height: calc(var(--lh) * var(--u)); }
+.blk dt::after {
+  content: ""; display: block; width: calc(34 * var(--u)); height: max(1px, calc(3 * var(--u))); background: var(--ink);
+  margin: calc((82.5 - var(--lh)) * var(--u)) auto 0;
+}
+.blk dd { margin: calc(38.5 * var(--u)) 0 0; line-height: calc(var(--lh) * var(--u)); white-space: nowrap; }
+.blk dd.blk__ml { line-height: calc(55 * var(--u)); }      /* two-line values (SUBWAY, PARKING) */
+.blk__l2 { display: block; margin-top: calc(13.89 * var(--u)); }
+
+/* 초대장 (200:238, h 1031): text 0 (40/55) · card 857×602 at 154 · button 348×88 at 820 · note at 931 (36/55) */
+.p2-invite { padding-top: 0; height: calc(1031 * var(--u)); }   /* the note runs 10 past the frame in Figma too */
+html[data-invite="recipient"] .p2-invite { height: auto; }
+.p2-invite__desc { margin: 0; padding: 0 calc(30 * var(--u)); font-size: max(10px, calc(40 * var(--u))); line-height: calc(55 * var(--u)); letter-spacing: calc(-1 * var(--u)); color: var(--ink); white-space: nowrap; }
+.p2-invite__card {
+  position: relative;
+  margin: calc(44 * var(--u)) auto 0; width: calc(857 * var(--u)); aspect-ratio: 857 / 602;
+  box-shadow:
+    0 calc(155 * var(--u)) calc(44 * var(--u)) 0 rgba(0,0,0,0),
+    0 calc(100 * var(--u)) calc(40 * var(--u)) 0 rgba(0,0,0,.03),
+    0 calc(56 * var(--u)) calc(34 * var(--u)) 0 rgba(0,0,0,.10),
+    0 calc(25 * var(--u)) calc(25 * var(--u)) 0 rgba(0,0,0,.17),
+    0 calc(6 * var(--u)) calc(14 * var(--u)) 0 rgba(0,0,0,.20);
+}
+.p2-invite__card img { width: 100%; height: 100%; object-fit: cover; }
+/* name slots: right edge at x 556/857 (end of the underline), line box 27/602 sitting on the rule */
+.card-name { position: absolute; left: 42%; right: 35.1%; height: 4.49%; display: flex; align-items: center; justify-content: flex-end; }
+.card-name--to { top: 61.96%; }
+.card-name--from { top: 77.08%; }
+.card-name__input, .card-name__text {
+  width: 100%; margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent;
+  font-family: "Pretendard", sans-serif; font-weight: 700; font-size: calc(24 * var(--u)); line-height: 1;   /* exact Figma proportion: part of the card artwork */
+  color: #0f0702; text-align: right; white-space: nowrap; overflow: hidden;
+  -webkit-appearance: none; appearance: none;
+}
+.card-name__input { caret-color: var(--orange); outline: none; touch-action: manipulation; }
+.card-name__input::placeholder { color: rgba(15, 7, 2, .28); font-weight: 500; }
+.card-name__input:focus { background: rgba(255, 97, 10, .07); }
+/* 220:12 / 220:13 / 220:14 */
+.card-share { margin-top: calc(64 * var(--u)); display: flex; flex-direction: column; align-items: center; padding: 0 calc(30 * var(--u)); }
+.card-share[hidden] { display: none; }
+.card-share button {
+  display: grid; place-items: center;
+  width: calc(348 * var(--u)); height: calc(88 * var(--u)); min-height: 32px; min-width: 126px;
+  border: max(1px, calc(3 * var(--u))) solid var(--orange); border-radius: calc(76 * var(--u)); background: #fff;
+  font-weight: 700; font-size: max(11px, calc(36 * var(--u))); line-height: 1; letter-spacing: calc(-1 * var(--u)); color: var(--orange);
+  white-space: nowrap; touch-action: manipulation;
+  transition: opacity 200ms ease, background 200ms ease;
+}
+.card-share button:active { background: rgba(255, 97, 10, .08); }
+.card-share button:disabled { opacity: .4; }
+.card-share__note { margin: calc(23 * var(--u)) 0 0; font-size: max(10px, calc(36 * var(--u))); line-height: calc(55 * var(--u)); letter-spacing: calc(-1 * var(--u)); color: #000; opacity: .5; white-space: nowrap; }
+.card-share__link {
+  width: 100%; max-width: 340px; margin-top: 12px; font: inherit; font-size: 13px; line-height: 1.45; padding: 8px 10px;
+  border: 1px solid rgba(15,7,2,.15); border-radius: 6px; background: #fff; color: var(--ink); resize: none;
+}
+
+/* 날짜 시간 (200:184, h 906): calendar 190 · OPENING 413 · TIME 487.8 · timer 684 */
+.p2-date { min-height: calc(1213 * var(--u)); }
+.cal {
+  display: grid; grid-template-columns: calc(148.5 * var(--u)) repeat(7, calc(110 * var(--u)));
+  align-items: start; margin: calc(81.74 * var(--u)) 0 0 calc(71.5 * var(--u)); text-align: left;
+}
+.cal__month { display: flex; flex-direction: column; padding-top: calc(6.05 * var(--u)); }
+.cal__mm { font-family: var(--font-display); font-weight: 700; font-size: calc(74.569 * var(--u)); line-height: calc(67.881 * var(--u)); letter-spacing: calc(-3.4954 * var(--u)); color: var(--ink-2); padding-left: calc(39.6 * var(--u)); }
+.cal__name { font-size: max(9px, calc(27.963 * var(--u))); line-height: 1.42; letter-spacing: calc(-.6152 * var(--u)); margin-top: calc(2.02 * var(--u)); color: #000; }
+.cal__days { display: contents; }
+.cal__d { display: flex; flex-direction: column; align-items: center; }
+.cal__w { font-family: var(--font-display); font-weight: 700; font-size: calc(33.085 * var(--u)); line-height: calc(60.235 * var(--u)); letter-spacing: calc(-1.0339 * var(--u)); color: var(--ink-2); white-space: nowrap; }
+.cal__n {
+  display: grid; place-items: center; width: calc(49 * var(--u)); height: calc(49 * var(--u)); margin-top: calc(10.765 * var(--u));
+  border-radius: calc(2 * var(--u)); font-weight: 600; font-size: max(10px, calc(28 * var(--u))); letter-spacing: calc(-.616 * var(--u)); color: #000;
+}
+.cal__d--open .cal__n { background: rgba(255, 97, 10, .4); }
+.cal__d--on .cal__n { background: #e6e6e6; }
+.p2-date .blks { margin-top: calc(102 * var(--u)); }                 /* OPENING at 412 */
+.p2-date .blk + .blk { margin-top: calc(80.68 * var(--u)); }          /* TIME at 660 */
+
+.timer { display: flex; justify-content: center; align-items: flex-start; margin-top: calc(100.68 * var(--u)); }   /* timer at 985.2 */
+.timer__u { display: flex; flex-direction: column; align-items: center; }
+.timer__box {
+  display: grid; place-items: center; width: calc(142.421 * var(--u)); height: calc(112.895 * var(--u));
+  border-radius: calc(2.605 * var(--u)); background: rgba(217, 217, 217, .3);
+  font-family: var(--font-display); font-weight: 700; font-size: calc(60.789 * var(--u)); line-height: 1; letter-spacing: calc(-2.6053 * var(--u)); color: #000;
+  font-variant-numeric: tabular-nums;
+}
+.timer__l { margin-top: calc(12.15 * var(--u)); font-size: max(9px, calc(32 * var(--u))); line-height: 1.42; letter-spacing: calc(-.704 * var(--u)); color: #000; }
+.timer__c { width: calc(52.11 * var(--u)); text-align: center; margin-top: calc(44.29 * var(--u)); font-weight: 800; font-size: calc(34.737 * var(--u)); line-height: calc(23.447 * var(--u)); opacity: .8; color: var(--ink); }
+
+/* 위치 (200:141, h 1224): map 789×335 at 199 · PLACE 622 · links 820 · SUBWAY 944 (all 40 px) */
+.p2-loc { min-height: calc(1224 * var(--u)); }
+.p2-loc__map { width: calc(789 * var(--u)); height: auto; margin: calc(90.74 * var(--u)) auto 0; }
+.p2-loc .blks { margin-top: calc(88 * var(--u)); --lh: 43.549; }
+.p2-loc .blks--subway { margin-top: calc(80.45 * var(--u)); }
+.links { display: flex; justify-content: center; align-items: center; gap: calc(24.194 * var(--u)); margin-top: calc(30.45 * var(--u)); font-size: var(--fs-body); line-height: calc(43.549 * var(--u)); letter-spacing: calc(-1 * var(--u)); opacity: .6; }
+.links a, .links button { color: var(--ink); text-decoration: none; padding: 8px 6px; margin: -8px -6px; touch-action: manipulation; }
+.links__sep { width: max(1px, calc(2 * var(--u))); height: calc(27.958 * var(--u)); background: var(--ink); }
+
+/* 주차 (200:89, h 1153): map 753×522 (render bounds) at 203.6 · PARKING 807 · value 931 · fee 1066 */
+.p2-park { min-height: calc(1153 * var(--u)); }
+.p2-park__map { width: calc(753 * var(--u)); height: auto; margin: calc(95.34 * var(--u)) auto 0; }
+.p2-park .blks { margin-top: calc(81.7 * var(--u)); --lh: 34.2; }
+.p2-park .blk dt { letter-spacing: 0; }
+.blk__fee { opacity: .4; line-height: calc(34.2 * var(--u)); margin-top: calc(25 * var(--u)) !important; }
+
+/* 후원사 (200:70, h 351) */
+.p2-partners { min-height: calc(351 * var(--u)); margin-bottom: calc(196 * var(--u)); }
+/* row is 115.17 tall in Figma; the 사과당 logo (233:323) is 129 tall and overhangs it, so the clip box is 129 and starts 6.9 higher (logos stay on the same centre line) */
+.marquee { margin-top: calc(91.83 * var(--u)); overflow: hidden; height: calc(129 * var(--u)); padding-left: calc(40 * var(--u)); }
+.marquee__track { display: flex; align-items: center; height: 100%; width: max-content; will-change: transform; }
+.marquee__track img { width: calc(var(--w) * var(--u)); height: auto; flex: none; margin-right: calc(70 * var(--u)); }
+
+/* Footer */
+.p2-foot { background: var(--foot-bg); min-height: calc(300 * var(--u)); padding: calc(54.4 * var(--u)) calc(40 * var(--u)) calc(var(--safe-b) + 40 * var(--u)); width: 100% !important; }
+.p2-foot > * { max-width: calc(var(--col) - 80 * var(--u)); margin-left: auto; margin-right: auto; }
+.p2-foot__top { display: flex; align-items: flex-start; gap: calc(31 * var(--u)); }
+.p2-foot__logo { width: calc(91 * var(--u)); height: auto; flex: none; }
+.p2-foot__name { margin: calc(29.56 * var(--u)) 0 0; font-weight: 600; font-size: max(9px, calc(16 * var(--u))); line-height: 1.375; letter-spacing: calc(-.2 * var(--u)); text-transform: uppercase; color: var(--ink-2); opacity: .7; }
+.p2-foot__line { border: 0; height: 0; border-top: .5px solid rgba(0, 0, 0, .2); margin-top: calc(15 * var(--u)); margin-bottom: 0; }   /* 15 below the name (Figma 128 → 143) */
+.p2-foot__copy { margin: calc(17.5 * var(--u)) 0 0 auto; text-align: right; font-size: max(8px, calc(14 * var(--u))); line-height: 1.1; letter-spacing: calc(-.2 * var(--u)); text-transform: uppercase; color: #000; opacity: .2; }
+
+/* toast + fatal */
+.toast { position: fixed; z-index: 50; left: 50%; bottom: calc(28px + var(--safe-b)); transform: translate(-50%, 12px); opacity: 0; pointer-events: none;
+  background: rgba(15, 7, 3, .88); color: #fff; font-size: 12px; padding: 9px 14px; border-radius: 999px; transition: opacity 260ms ease, transform 260ms ease; }
+.toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+.fatal { position: fixed; z-index: 60; inset: 0; display: grid; place-items: center; text-align: center; color: #fff; padding: 32px; font-size: 13px; line-height: 1.6; }
+.fatal[hidden] { display: none; }
+.fatal button { margin-top: 14px; padding: 9px 18px; border: 1px solid rgba(255,255,255,.6); border-radius: 999px; color: #fff; font-size: 12px; letter-spacing: .08em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee { overflow-x: auto; }
+  .swipe__dot { animation-duration: 3.2s; }
+}
